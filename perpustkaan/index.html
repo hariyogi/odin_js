@@ -1,0 +1,33 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Perpustakaan</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <div class="head">
+        <h1>DATA BUKU PERPUSTAKAAN</h1>
+    </div>
+    
+    <form action="main.js/addBook">
+    <p>Judul : </p>
+    <input id="judul" type="text">
+    <p>Pengarang : </p>
+    <input id="pengarang" type="text">
+    <p>Halaman : </p>
+    <input id="halaman" type="number">
+    <p>Sudah dibaca ?</p>
+    <select id="baca" name="baca">
+        <option value="sudah">Sudah</option>
+        <option value="belum">Belum</option>
+    </select> 
+    <input id="simpan" type="button" value="Tambah">
+    </form>
+    <div id="data">
+
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>
