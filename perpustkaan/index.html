@@ -4,30 +4,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Perpustakaan</title>
+    <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
-    <div class="head">
-        <h1>DATA BUKU PERPUSTAKAAN</h1>
+    <ta id="container">
+        <header>
+            <h1>SISTEM MANAJEMEN BUKU SEDERHANA</h1>
+        </header>
+    
+        <form id="form">
+            <label>Judul : </label>
+            <input name="judul" type="text" value="" required>
+            <label>Pengarang : </label>
+            <input name="pengarang" type="text" value="" required>
+            <label>Halaman : </label>
+            <input id="halaman" name="halaman" type="number" min="1">
+            <label>Baca ? </label>
+            <select name="baca">
+                <option value="sudah">Sudah</option>
+                <option value="belum">Belum</option>
+            </select> 
+            <input id="simpan" name="simpan" type="button" value="Tambah">
+        </form>
+        <table id="data">
+            <tr>
+                <td>Judul</td>
+                <td>Pengarang</td>
+                <td>Halaman</td>
+                <td>Baca</td>
+                <td>Action</td>
+            </tr>
+        </table>
     </div>
     
-    <form action="main.js/addBook">
-    <p>Judul : </p>
-    <input id="judul" type="text">
-    <p>Pengarang : </p>
-    <input id="pengarang" type="text">
-    <p>Halaman : </p>
-    <input id="halaman" type="number">
-    <p>Sudah dibaca ?</p>
-    <select id="baca" name="baca">
-        <option value="sudah">Sudah</option>
-        <option value="belum">Belum</option>
-    </select> 
-    <input id="simpan" type="button" value="Tambah">
-    </form>
-    <div id="data">
-
-    </div>
     <script src="main.js"></script>
 </body>
 </html>

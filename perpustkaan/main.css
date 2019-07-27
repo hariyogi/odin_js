@@ -1,16 +1,39 @@
 * {
-    padding: 0;
-    margin: 0;
     font-family: 'Courier New', Courier, monospace;
-    font-size: 10px;
+}
+
+#container {
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background-color: #277ea6;
+}
+
+form {
+    margin-top: 16px;
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+}
+
+label {
+    margin-left: 8px;
+    margin-right: 4px;
+    font-weight: bold;
+}
+
+#halaman {
+    width: 4em;
+}
+
+#simpan {
+    margin-left: 24px;
 }
 
 h1 {
-    font-size: 4em;
-}
-
-.head {
-    padding: 10px;
-    margin-bottom: 16px;
-    background-color: pink;
+    text-align: center;
+    color: white;
+    text-shadow: 4px 4px 0px black;
 }
