@@ -28,7 +28,7 @@ label {
     width: 4em;
 }
 
-#simpan {
+#simpan, #reset {
     margin-left: 24px;
 }
 
@@ -36,4 +36,32 @@ h1 {
     text-align: center;
     color: white;
     text-shadow: 4px 4px 0px black;
+}
+
+table {
+    width: 100%;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+thead {
+    text-align: center;
+    background-color: #a3eef0;
+}
+
+thead td {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    border: 1px solid black;
+}
+
+tbody td {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    text-align: center;
+    border-right: 1px solid black;
+}
+
+tbody tr:nth-child(even){
+    background-color: #dbdbdb;
 }

@@ -7,12 +7,25 @@ let pengarang = input.pengarang;
 let halaman = input.halaman;
 let baca = input.baca;
 let simpan = input.simpan;
+let reset = input.reset;
 
+function init(){
+    halaman.value = 1;
+    eventHandler();
+}
 
-simpan.addEventListener("click", () =>{
-    addBook();
-    //render();
-});
+function eventHandler() {
+    simpan.addEventListener("click", () =>{
+        addBook();
+        render();
+    });
+    
+    reset.addEventListener("click", () =>{
+        myLibary.length = 0;
+        render();
+    });
+}
+
 
 // Kelas Buku (START)
 function Book (judul, pengarang, halaman, isread){
@@ -31,6 +44,7 @@ Book.prototype.isBaca = function(){
 };
 // Kelas Buku (END)
 
+// Menambahkan buku baru kedalam array
 function addBook (){
     if(checkForm()){
         myLibary.push(new Book(
@@ -42,29 +56,16 @@ function addBook (){
     }
 }
 
+// Menampilkan data kedalam tabel
 function render(){
     resetData();
     myLibary.forEach((array, index) =>{
-        const p = document.createElement("p");
-        const del = document.createElement("a");
-        p.textContent = `${array.judul}, ${array.pengarang}, ${array.halaman}, ${array.isRead} `;
-        del.textContent = "Hapus";
-        del.setAttribute("href", "#");
-        del.addEventListener("click", () =>{
-            delData(index);
-            render();
-        });
-        p.appendChild(del);
-        data.appendChild(p);
+        data.appendChild(createTableData(array, index));
     });
 }
 
-function delData(index){
-    myLibary.splice(index, 1);
-}
-
-// Validator
-
+// Validator form
+// Return true => valid, false => tidak valid
 function checkForm(){
     if(judul.value.length <= 0){
         alert("Judul tidak boleh kosong");
@@ -79,10 +80,51 @@ function checkForm(){
     return true;
 }
 
-// HELPER
-
+// Henghapus semua data di tabel
 function resetData(){
     while(data.firstChild){
         data.removeChild(data.firstChild);
     }
 }
+
+// Membuat data tabel.
+// Return Node "td"
+function createTableData(buku, index){
+    const row = document.createElement("tr");
+    const judul = document.createElement("td");
+    const pengarang = document.createElement("td");
+    const halaman = document.createElement("td");
+    const baca = document.createElement("td");
+    const action = document.createElement("td");
+    const flagBaca = document.createElement("button");
+    const flagHapus = document.createElement("button");
+    /////// Tambah Content //////
+    judul.textContent = buku.judul;
+    pengarang.textContent = buku.pengarang;
+    halaman.textContent = buku.halaman;
+    if(buku.isRead === "sudah"){
+        baca.style.color = "green";
+        baca.textContent = "✓";
+    }else{
+        baca.style.color = "red";
+        baca.textContent = "✖";
+    } 
+    flagBaca.textContent = "Sudah Baca";
+    flagHapus.textContent = "Hapus";
+    ////// Event Handler //////
+    flagBaca.addEventListener("click", () =>{
+        buku.isBaca();
+        render();
+    });
+    flagHapus.addEventListener("click", () =>{
+        myLibary.splice(index, 1);
+        render();
+    });
+    ////// Buat Node element //////
+    action.append(flagBaca, flagHapus);
+    row.append(judul, pengarang, halaman, baca, action);
+    return row;
+}
+
+// Mulai
+init();
