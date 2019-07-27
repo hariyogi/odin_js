@@ -1,3 +1,5 @@
+const LOCAL_STORAGE = "localStorage";
+
 function storageAvailable(type) {
     var storage;
     try {
@@ -23,6 +25,6 @@ function storageAvailable(type) {
     }
 }
 
-if(!storageAvailable("localStorage")){
+if(!storageAvailable(LOCAL_STORAGE)){
     alert("Browser anda tidak menudukung local storage");
 }
