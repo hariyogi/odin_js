@@ -1,5 +1,6 @@
 const input = document.getElementById("form").elements;
 const data = document.getElementById("data");
+const LIB = "libra";
 
 let myLibary = [];
 let judul = input.judul;
@@ -11,6 +12,14 @@ let reset = input.reset;
 
 function init(){
     halaman.value = 1;
+    if(storageAvailable(LOCAL_STORAGE)){
+        if(!localStorage.getItem(LIB)){
+            localStorage.setItem(LIB, JSON.stringify(myLibary));
+        }else{
+            storageToArray(JSON.parse(localStorage.getItem(LIB)));
+            render();
+        }
+    }
     eventHandler();
 }
 
@@ -53,6 +62,7 @@ function addBook (){
             halaman.value,
             baca.value
             ));
+        localStorage.setItem(LIB, JSON.stringify(myLibary));
     }
 }
 
@@ -87,6 +97,18 @@ function resetData(){
     }
 }
 
+// Pindahkan array dari storage ke myLibrary
+function storageToArray(array){
+    array.forEach(value => {
+        myLibary.push(new Book(
+            value.judul,
+            value.pengarang,
+            value.halaman,
+            value.isRead
+        ));
+    });
+}
+
 // Membuat data tabel.
 // Return Node "td"
 function createTableData(buku, index){
@@ -118,6 +140,7 @@ function createTableData(buku, index){
     });
     flagHapus.addEventListener("click", () =>{
         myLibary.splice(index, 1);
+        localStorage.setItem(LIB, JSON.stringify(myLibary));
         render();
     });
     ////// Buat Node element //////
@@ -125,6 +148,7 @@ function createTableData(buku, index){
     row.append(judul, pengarang, halaman, baca, action);
     return row;
 }
+
 
 // Mulai
 init();
