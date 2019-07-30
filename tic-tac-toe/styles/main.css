@@ -1,0 +1,16 @@
+* {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.board-game {
+    display: grid;
+    grid-template: repeat(3, 40px) / repeat(3, 40px); 
+    border-collapse: collapse;
+}
+
+.cell-board {
+    border: 2px solid black;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
