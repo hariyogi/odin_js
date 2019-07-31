@@ -1,6 +1,9 @@
 const tictactoeBoard = (() => {
     "user strict";
 
+    const PLAYER = "player";
+    const BOT = "bot";
+
     const WIN_PATTERN = 
     [[0,1,2],
      [3,4,5],
@@ -21,6 +24,7 @@ const tictactoeBoard = (() => {
     let _privPinPostion = [0, 0, 0, 0, 0, 0, 0, 0, 0];
     let _privFlagStop = false;
     let _privFlagCreated = false;
+    let _privComputerPlay = false;
     
     ////// Private Method //////
 
@@ -50,10 +54,7 @@ const tictactoeBoard = (() => {
                 cell.className = "cell-board";
                 cell.style.gridArea = `${row} / ${col}`;
                 cell.setAttribute("data-index", index);
-                cell.addEventListener("click", e =>{
-                    if(_privFlagStop) return;
-                    _privPlayGame(e.target);
-                });
+                cell.addEventListener("click", _privPlayGame);
                 MAIN_BOARD.appendChild(cell);
                 index++;
             }
@@ -65,16 +66,29 @@ const tictactoeBoard = (() => {
      * Untuk event listener
      * @param {*} element Kotak permainan 
      */
-    const _privPlayGame = element => {
+    const _privPlayGame = e => {
+        if(_privFlagStop) return;
+        const element = e.target;
         const indexPostion = element.getAttribute("data-index");
         if(_privPinPostion[indexPostion]) return;
         if(_privWhoseTurn === 1){
             element.textContent = _privPlayerOne.getPin();
             _privPinPostion[indexPostion] = 1;
             _privWhoseTurn = 2;
-        }else{
+        }else if(_privWhoseTurn === 2 && !_privComputerPlay){
             element.textContent = _privPlayerTwo.getPin();
             _privPinPostion[indexPostion] = 2;
+            _privWhoseTurn = 1;
+        }
+
+        // Komputer Play
+        if(_privWhoseTurn === 2 && _privComputerPlay){
+            const bestMove = _privMinimax(_privPinPostion, 2);
+            if(bestMove.index !== undefined){
+                const cell = document.querySelector(`div[data-index="${bestMove.index}"]`);
+                cell.textContent = _privPlayerTwo.getPin();
+                _privPinPostion[bestMove.index] = 2;
+            }
             _privWhoseTurn = 1;
         }
         
@@ -164,6 +178,68 @@ const tictactoeBoard = (() => {
         PAPAN_PENGUMUMUMAN.textContent = msg;
     };
 
+    ////// Minimax Algorithm //////
+
+    const _privCheckAvaibleSpot = mainBoard =>{
+        let spotKosong = [];
+        mainBoard.forEach((value, index) =>{
+            if(value === 0) spotKosong.push(index);
+        });
+        return spotKosong;
+    };
+
+    const _privMinimax = (newBoard, player) => {
+        let avaibleSpot = _privCheckAvaibleSpot(newBoard);
+        let winCondtion = _privCheckWinner();
+        if(winCondtion[0] === 1){
+            return {score: -10};
+        }else if(winCondtion[0] === 2){
+            return {score: 10};
+        }else if(avaibleSpot.length <= 0){
+            return {score: 0};
+        }
+
+        let moves = [];
+        for(let i = 0; i < avaibleSpot.length; i++){
+            let move = {};
+            move.index = avaibleSpot[i];
+            newBoard[avaibleSpot[i]] = player;
+            if(player === 2){
+                let result = _privMinimax(newBoard, 1);
+                move.score = result.score;
+            }else{
+                let result = _privMinimax(newBoard, 2);
+                move.score = result.score;
+            }
+            newBoard[avaibleSpot[i]] = 0;
+            moves.push(move);
+        }
+
+        let bestMove;
+        if(player === 2){
+            let bestScore = -10000;
+            for(let bot = 0; bot < moves.length; bot++){
+                if(moves[bot].score > bestScore){
+                  bestScore = moves[bot].score;
+                  bestMove = bot;
+                }
+            }
+        }else{
+            let bestScore = 10000;
+            for(var pl = 0; pl < moves.length; pl++){
+                if(moves[pl].score < bestScore){
+                  bestScore = moves[pl].score;
+                  bestMove = pl;
+                }
+            }
+        }
+        return moves[bestMove];
+    };
+
+    ////// END Minimax Algorithm //////
+
+    ////// END Private Method //////
+
     ////// Public Method //////
     
     /**
@@ -182,9 +258,16 @@ const tictactoeBoard = (() => {
      * @param {object} player1 playerFactory
      * @param {object} player2 playerFactory
      */
-    const setPlayer = (player1, player2) => {
+    const setPlayer = (player1, player2, oppenent) => {
         _privPlayerOne = player1;
+        _privPlayerOne.setSide(1);
         _privPlayerTwo = player2;
+        _privPlayerTwo.setSide(2);
+        if(oppenent === BOT){
+            _privComputerPlay = true;
+        }else {
+            _privComputerPlay = false;
+        }
         _privWhoseTurn = 1;
     };
 
@@ -211,9 +294,11 @@ const tictactoeBoard = (() => {
      */
     const isInit = () =>{
         return _privFlagCreated;
-    }
+    };
+
+    ////// END Public Method //////
 
     return {
-        makeABoard, setPlayer, resetBoard, isInit,
+        makeABoard, setPlayer, resetBoard, isInit, PLAYER, BOT
     };
 })();
