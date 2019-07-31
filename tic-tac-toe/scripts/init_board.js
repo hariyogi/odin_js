@@ -13,12 +13,14 @@ const tictactoeBoard = (() => {
 
     const MAIN_BOARD = document.createElement("div");
     const PAPAN_SCORE = document.createElement("p");
+    const PAPAN_PENGUMUMUMAN = document.createElement("p");
 
     let _privPlayerOne = null;
     let _privPlayerTwo = null;
     let _privWhoseTurn = 0;
     let _privPinPostion = [0, 0, 0, 0, 0, 0, 0, 0, 0];
     let _privFlagStop = false;
+    let _privFlagCreated = false;
     
     ////// Private Method //////
 
@@ -27,9 +29,13 @@ const tictactoeBoard = (() => {
      * @param {*} element Wadah (Harus DIV);
      */
     const _privSetBoard = element => {
-        PAPAN_SCORE.textContent = `Player One : ${_privPlayerOne.getScore()} || Player Two : ${_privPlayerTwo.getScore()}`;
+        PAPAN_SCORE.className = "board";
+        PAPAN_SCORE.textContent = `${_privPlayerOne.getName()} : ${_privPlayerOne.getScore()} || ${_privPlayerTwo.getName()} : ${_privPlayerTwo.getScore()}`;
+        PAPAN_PENGUMUMUMAN.className = "board";
+        PAPAN_PENGUMUMUMAN.style.marginTop = "16px";
+        PAPAN_PENGUMUMUMAN.classList.add("hidden");
         MAIN_BOARD.className = "board-game";
-        element.append(PAPAN_SCORE, MAIN_BOARD);
+        element.append(PAPAN_SCORE, MAIN_BOARD,  PAPAN_PENGUMUMUMAN);
         _privSetCellBoard();
     };
 
@@ -52,6 +58,7 @@ const tictactoeBoard = (() => {
                 index++;
             }
         }
+        _privFlagCreated = true;
     };
 
     /**
@@ -74,17 +81,13 @@ const tictactoeBoard = (() => {
         // Check kemenangan
         const theWinner = _privCheckWinner();
         
-        if(theWinner === 1){
-            _privPlayerOne.setScore();
-            _privUpdPapanScore();
-            _privDisableBoard();
-        }else if (theWinner === 2) {
-            _privPlayerTwo.setScore();
-            _privUpdPapanScore();
-            _privDisableBoard();
+        if(theWinner[0] === 1){
+            _privDrawWinLine(theWinner[1], _privPlayerOne);
+        }else if (theWinner[0] === 2) {
+            _privDrawWinLine(theWinner[1], _privPlayerTwo);
         }else {
             if(_privCheckDraw()){
-                console.log("DRAWW....");
+                _privShowPengumuman("DRAW....");
                 _privDisableBoard();
             }
         }
@@ -102,10 +105,10 @@ const tictactoeBoard = (() => {
             for(let child = 0; child < 3; child++){
                 if(_privPinPostion[WIN_PATTERN[main][child]] === 1){
                     playerOne++;
-                    if(playerOne >= 3) return 1;
+                    if(playerOne >= 3) return [1, WIN_PATTERN[main]];
                 }else if(_privPinPostion[WIN_PATTERN[main][child]] === 2){
                     playerTwo++;
-                    if(playerTwo >= 3) return 2;
+                    if(playerTwo >= 3) return [2, WIN_PATTERN[main]];
                 }
             }
         }
@@ -124,7 +127,7 @@ const tictactoeBoard = (() => {
      * @todo belum selesai
      */
     const _privUpdPapanScore = () => {
-        PAPAN_SCORE.textContent = `Player One : ${_privPlayerOne.getScore()} || Player Two : ${_privPlayerTwo.getScore()}`;
+        PAPAN_SCORE.textContent = `${_privPlayerOne.getName()} : ${_privPlayerOne.getScore()} || ${_privPlayerTwo.getName()} : ${_privPlayerTwo.getScore()}`;
     };
 
     /**
@@ -133,9 +136,35 @@ const tictactoeBoard = (() => {
     const _privDisableBoard = () => {
         _privFlagStop = true;
     };
-    
 
-    // Public Method
+    /**
+     * Panggil fungsi jika sudah menemukan pemenang
+     * @param {array} posArry WIN_PATTERN
+     * @param {obj} player Siapa yang menang
+     */
+    const _privDrawWinLine = (posArry, player) => {
+        player.setScore();
+        _privUpdPapanScore();
+        posArry.forEach(element =>{
+            const cell = document.querySelector(`div[data-index="${element}"]`);
+            cell.classList.add("winning-line");
+        });
+        _privDisableBoard();
+        _privShowPengumuman(`${player.getName()} MENANG`);
+    };
+
+    /**
+     * Menampilkan papan pengumuman
+     * @param {string} msg pesan yang ingin di tampilkan
+     */
+    const _privShowPengumuman = msg => {
+        if(PAPAN_PENGUMUMUMAN.classList.contains("hidden")){
+            PAPAN_PENGUMUMUMAN.classList.remove("hidden");
+        }
+        PAPAN_PENGUMUMUMAN.textContent = msg;
+    };
+
+    ////// Public Method //////
     
     /**
      * Membuat papan permainan (Harus implementasi setPlayer() dulu)
@@ -162,21 +191,26 @@ const tictactoeBoard = (() => {
     /**
      * Reset MAIN BOARD
      */
-    const resetBoard = () =>{
+    const resetBoard = (cmd) =>{
         _privFlagStop = false;
         _privPinPostion = [0, 0, 0, 0, 0, 0, 0, 0, 0];
         _privWhoseTurn = 1;
         const allCell = MAIN_BOARD.childNodes;
         allCell.forEach( (value, index, listObj) => {
             value.textContent = "";
+            if(value.classList.contains("winning-line")){
+                value.classList.remove("winning-line");
+            }
         });
+        PAPAN_PENGUMUMUMAN.classList.add("hidden");
+        _privUpdPapanScore();
     };
 
     /**
      * Check permianan sudah di buat apa belum
      */
     const isInit = () =>{
-        return (_privPlayerOne === null) ? false : true;
+        return _privFlagCreated;
     }
 
     return {
