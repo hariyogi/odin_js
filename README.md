@@ -6,5 +6,5 @@ Sistem manajemen buku sederhana yang menyimpan judul, pengarang, halaman, dan fl
 <br><br> Live view https://hariyogi.github.io/odin_js/perpustkaan/
 
 ## Tic-tac-toe
-Permainan tic-tac-toe dimana permainan isi bisa dimainkan oleh dua orang.
+Permainan tic-tac-toe dimana permainan ini bisa dimainkan oleh dua orang atau dengan komputer "yang tidak bisa kalah".
 <br><br> Live view https://hariyogi.github.io/odin_js/tic-tac-toe/
