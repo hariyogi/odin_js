@@ -1,0 +1,111 @@
+* {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+body {
+    background-color: pink;
+}
+
+p {
+    line-height: 1.5;
+}
+
+#content {
+    display: flex;
+    flex-direction: column;
+}
+
+#header {
+    text-align: center;
+    background-color: #db8695;
+    color: white;
+}
+
+#header h1{
+    margin-bottom: 0px;
+    text-shadow: 2px 2px 0 #994251;
+}
+
+ul#nav {
+    display: flex;
+    list-style: none;
+    justify-content: center;
+    padding: 0;
+    margin-bottom: 0px;
+}
+
+ul#nav li{
+    padding: 16px;
+    background-color: #db8695;
+}
+
+ul#nav li.selected {
+    background-color: #ecaeba;
+    color: #1e1e1e;
+}
+
+ul#nav li:hover{
+    background-color: #99515e;
+    color: white;
+    cursor: default;
+}
+
+#isi{
+    background-color: #ecaeba;
+    width: 90%;
+    margin: 0 auto;
+    padding: 8px;
+}
+
+#isi img{
+    float: left;
+    margin-right: 16px;
+    margin-bottom: 8px;
+    height: 200px;
+    margin: auto 0;
+}
+
+#card-board {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card {
+    margin-left: 8px;
+    margin-bottom: 16px;
+    max-width: 400px;
+    background-color: white;
+    padding: 8px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+}
+
+.card p{
+    margin-bottom: 0px;
+    margin-top: 6px;
+}
+
+#isi .card img{
+    margin-bottom: 8px;
+}
+
+.card .judul, .card .harga{
+    font-weight: bold;
+    text-align: center;
+}
+
+.card .harga{
+    padding-bottom: 4px;
+    border-bottom: 1px solid gray;
+}
+
+.card .harga::before{
+    content: "Rp ";
+}
+
+
+
+
+
+
