@@ -6,10 +6,56 @@
     <meta http-equiv='X-UA-Compatible' content='ie=edge'>
     <meta name='author' content='I Made Hariyogi'>
     <meta name='description' content='Aplikasi ToDo List'>
+    <!-- Test CSS -->
+    <link rel="stylesheet" href="main-test.css">
     <title>To Do List App</title>
   </head>
   <body>
-    <h1>Ini Adalah Test</h1>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark justify-content-center">
+      <a class="navbar-brand" href="#">TO-DO-LIST</a>
+    </nav>
+    <div class="container-fluid text-body">     
+      <div class="row">
+        <div class="col-sm-4 border mb-3">
+          <h2 class="mb-3">Group</h2>
+          <ul id="group_cont" class="list-group mb-3">
+            
+          </ul>
+          <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#group_modal">Tambah Group Baru</button>
+          <button type="button" class="btn btn-primary mb-3">Tambah Note Baru</button>
+        </div>
+        <div class="col-sm-8">
+          <ul id="list_cont" class="list-group mb-3">
+            <li class="list-group-item">
+              
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class='modal' id="group_modal">
+      <div class='modal-dialog modal-xl'>
+        <div class='modal-content'>
+          <!-- Header -->
+          <div class='modal-header'>
+            <h2 class="modal-title">Tambah Group</h2>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <!-- Body -->
+          <div class="modal-body was-validated">
+            <div class='form-group'>
+              <label for="nama-group">Nama : </label>
+              <input type="text" class="form-control" id="nama-group" placeholder="ex: Project" required>
+              <div class="invalid-feedback">Tolong Masukan Nama Group</div>
+            </div>
+          </div>
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button id="tambah_group" type="button" class="btn btn-success" data-dismiss="modal">Tambah</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <script src="bundle.js"></script>
   </body>
 </html>
