@@ -1,23 +1,66 @@
+import {listUtils} from './list-factory.js';
+import listMod from './list-controler.js';
+
 const domMod = (() =>{
   'use strict';
-  const populateList = (array, ulContainer) => {
-    array.forEach(value => {
-      tambahList(value, ulContainer);
+
+  const _buatListGroupItem = () => {
+    const li = document.createElement("li");
+    return li;
+  }
+
+  const _buatButtonGroup = () => {
+    const btnGroup = document.createElement("div");
+    return btnGroup;
+  }
+
+  const _buatButton = content => {
+    const button = document.createElement("button");
+    button.textContent = content;
+    return button;
+  }
+
+  const _modalOpen = id => {
+    document.body.classList.add("modal-open");
+    id.classList.add("show");
+    id.setAttribute("style", "display: block;");
+    id.removeAttribute("aria-hidden");
+    id.setAttribute("aria-modal", true);
+  } 
+
+  // Public Mehtod
+
+  const toggleActive = (arrElementList, index) => {
+    arrElementList.forEach((value,eindex) => {
+      value.classList.toggle("active",eindex === index);
     });
   }
 
-  const tambahList = (obj, ulContainer) => {
-    const li = document.createElement("li");
-      li.classList.add("list-group-item");
-      for(let key in obj){
-        const p = document.createElement("p");
-        p.textContent = obj[key];
-        li.appendChild(p); 
-      }
-      ulContainer.appendChild(li);
+  const hapusSemuaChild = element => {
+    while(element.firstChild){
+      element.removeChild(element.firstChild);
+    }
+  }
+  
+  const getListGroup = array => {
+    let arryListGroup = []
+    array.forEach((value) => {
+      const li = _buatListGroupItem();
+      const judul = document.createElement("h3");
+      judul.textContent = value.nama;
+      li.append(judul);
+      arryListGroup.push(li);
+    });
+    return arryListGroup;
+  }
+  
+  const appendChild = (arryChild, contiainer) => {
+    arryChild.forEach(value =>{
+      contiainer.appendChild(value);
+    });
   }
 
-  return {populateList, tambahList};
+  return {getListGroup, appendChild, hapusSemuaChild, toggleActive};
 })();
 
 export default domMod;

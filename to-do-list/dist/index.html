@@ -6,55 +6,70 @@
     <meta http-equiv='X-UA-Compatible' content='ie=edge'>
     <meta name='author' content='I Made Hariyogi'>
     <meta name='description' content='Aplikasi ToDo List'>
-    <!-- Test CSS -->
-    <link rel="stylesheet" href="main-test.css">
     <title>To Do List App</title>
   </head>
-  <body>
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark justify-content-center">
-      <a class="navbar-brand" href="#">TO-DO-LIST</a>
-    </nav>
-    <div class="container-fluid text-body">     
-      <div class="row">
-        <div class="col-sm-4 border mb-3">
-          <h2 class="mb-3">Group</h2>
-          <ul id="group_cont" class="list-group mb-3">
-            
+  <body class="main-container">
+    <header class="header bg-dark">
+      <h1 class="nav-header-logo">TODO-LIST</h1>
+    </header>
+    <main class="main-grid pd-sm">
+      <section class="group-container card">
+        <header class="header bg-dark jc-s-between">
+          <h2>Group :</h2>
+          <button id="op-mdl-group">Tambah Group</button>
+        </header>
+        <div class='main-card'>
+          <ul class="group-cont" id="group-cont">
+          
           </ul>
-          <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#group_modal">Tambah Group Baru</button>
-          <button type="button" class="btn btn-primary mb-3">Tambah Note Baru</button>
-        </div>
-        <div class="col-sm-8">
-          <ul id="list_cont" class="list-group mb-3">
-            <li class="list-group-item">
-              
-            </li>
+        </div>        
+      </section>
+      <section class="card">
+        <header class="header bg-dark jc-s-between">
+          <h2 id="judul-group">Ini Judul Group</h2>
+          <div class='btn-group'>
+            <button id="op-mdl-note">Tambah Note</button>
+            <button id="edit-nama-group">Edit Nama</button>
+            <button id="hapus-group">Hapus</button>
+          </div>
+        </header>
+        <div class='main-card'>
+          <ul class="list-cont" id="list-cont">
+          
           </ul>
-        </div>
-      </div>
+        </div>   
+      </section>
+    </main>
+    <div id="group-modal" class='modal'>
+      <section class='modal-content'>
+        <header class="modal-header">
+          <h2 id="judul-group-modal">Judul Modal</h2>
+          <i class="modal-close">&times;</i>
+        </header>
+        <form class='modal-body' id=group-form>
+          <div class='input-group'>
+            <label for="nama-group">Nama : </label>
+            <input class="valid" type="text" name="nama-group" id="nama-group" required>
+          </div>
+        </form>
+        <footer class="modal-footer">
+          <button id="save-group-form">Simpan</button>
+        </footer>
+      </section>
     </div>
-    <div class='modal' id="group_modal">
-      <div class='modal-dialog modal-xl'>
-        <div class='modal-content'>
-          <!-- Header -->
-          <div class='modal-header'>
-            <h2 class="modal-title">Tambah Group</h2>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
-          <!-- Body -->
-          <div class="modal-body was-validated">
-            <div class='form-group'>
-              <label for="nama-group">Nama : </label>
-              <input type="text" class="form-control" id="nama-group" placeholder="ex: Project" required>
-              <div class="invalid-feedback">Tolong Masukan Nama Group</div>
-            </div>
-          </div>
-          <!-- Modal footer -->
-          <div class="modal-footer">
-            <button id="tambah_group" type="button" class="btn btn-success" data-dismiss="modal">Tambah</button>
-          </div>
-        </div>
-      </div>
+    <div id="note-modal" class='modal'>
+      <section class='modal-content'>
+        <header class="modal-header">
+          <h2 id="note-group-modal">Judul Modal</h2>
+          <i class="modal-close">&times;</i>
+        </header>
+        <form class='modal-body' id=note-form>
+          
+        </form>
+        <footer class="modal-footer">
+          <button id="save-note-form">Simpan</button>
+        </footer>
+      </section>
     </div>
     <script src="bundle.js"></script>
   </body>
