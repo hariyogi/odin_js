@@ -16,7 +16,7 @@ const listMod = (() => {
   const _updateStorage = (array, nama) => {
     let temp = [];
     array.forEach(value => {
-      temp.push(value.getAllToObj());
+      temp.push(value);
     });
     storageMod.updateStorage(nama, JSON.stringify(temp));
   }
@@ -55,7 +55,11 @@ const listMod = (() => {
   // Public Method
 
   const simpanGroup = () =>{
-    _updateStorage(_groupArr, GROUP);
+    let temp = [];
+    _groupArr.forEach(value => {
+      temp.push(value.getAllToObj());
+    });
+    _updateStorage(temp, GROUP);
   }
 
   const initList = () =>{
@@ -70,19 +74,21 @@ const listMod = (() => {
     }
   }
 
-  const setCrntGroup = (index) =>{
+  const setCrntGroup = index =>{
     _crntGroup.groupObj = _groupArr[index];
     _crntGroup.index = index;
     _setCrntListNote(_crntGroup.groupObj.getNoteList());
   }
   
   const tambahList = _listFact => {
-    _crntGroup.groupObj.tambahNoteList(_listFact);
+    _crntGroup.groupObj.tambahNote(_listFact);
     simpanGroup();
   }
 
   const editList = (index, _updateList) => {
+    console.log(_updateList.toString());
     _crntGroup.groupObj.setNote(index, _updateList);
+    console.log(_crntGroup.groupObj.getNote(index).toString());
     simpanGroup();
   }
 
@@ -109,6 +115,8 @@ const listMod = (() => {
   const hapusGroup = () => {
     if(_crntGroup.groupObj !== null && _crntGroup.index > -1) {
       _groupArr.splice(_crntGroup.index, 1);
+      _crntGroup.groupObj = _groupArr[0];
+      _crntGroup.index = 0;
       simpanGroup();
       _resetCrntGroup();
     }

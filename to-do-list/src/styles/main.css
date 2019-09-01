@@ -13,6 +13,7 @@
 .main-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  grid-auto-rows: auto;
   grid-gap: 0.1rem;
 }
 
@@ -65,12 +66,19 @@ h2 {
   border-radius: 4px;
 }
 
-.group-cont li{
+.group-cont li, .list-cont li{
   display: flex;
   justify-content: space-between;
   padding: 0.8em;
   align-items: baseline;
-  cursor: pointer;
+}
+
+.list-cont li {
+  border-bottom: 1px solid gray;
+}
+
+.list-cont li:last-child {
+  border-bottom: 0;
 }
 
 .group-cont li.active {
@@ -81,6 +89,7 @@ h2 {
 .group-cont li:hover {
   background: #194a97;
   color: white;
+  cursor: pointer;
 }
 
 /* Form */
@@ -104,33 +113,19 @@ h2 {
   border-right: 0;
   border-radius: 4px;
   font-size: 1rem;
-  border-bottom: 1px solid rgb(19, 19, 19);
 }
 
-input:invalid {
-  border-style: none;
-}
-
-input.valid {
-  border-bottom: 1px solid #28aa69;
-}
-
-.input-group .hint {
-  margin-top: 4px;
-  font-size: .7rem;
-}
-
-.hint.invalid {
-  display: none;
-  color: #d91c1c;
+select {
+  padding: .3rem;
+  width: 50%;
 }
 
 /* Modal */
 
 .modal {
-  display: none;
+  display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   position: fixed;
   z-index: 1;
   left: 0;
@@ -170,7 +165,6 @@ input.valid {
 .modal-content {
   background-color: #fefefe;
   border: 1px solid #888;
-  margin-top: 10%;
   width: 80%;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
   animation-name: animatetop;

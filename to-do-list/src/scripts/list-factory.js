@@ -21,7 +21,7 @@ const listFact = (judul, desk, dline, prioriti, pesan, checklist, group) => {
   const setChecklist = _clist => {checklist = _clist;}
   const tambahChecklist = _clist => {checklist.push(_clist);}
   const setGroup = _group => {group = _group;}
-  const toString = () => `${judul} ${desk} ${dline} ${prioriti} ${pesan} ${checklist}`;
+  const toString = () => `${judul} ${desk} ${dline} ${prioriti} ${pesan} ${checklist} ${group}`;
   const getAllToObj = () => {return {judul, desk, dline, prioriti, pesan, checklist, group};};
   return {getJudul, getDesk, getDline, getPrioriti, getPesan,
       getChecklist, setJudul, setDesk, setDline, setPrioriti, setPesan,
@@ -40,11 +40,17 @@ const groupFact = (nama, noteList) => {
   const getNoteList = () => noteList;
   const setNoteList = arrNoteList =>{noteList = arrNoteList;}
   const getNote = index => noteList[index];
-  const setNote = (index, noteList) => {noteList[index] = noteList};
+  const setNote = (index, _noteList) => {noteList[index] = _noteList};
   const tambahNote = list => {noteList.push(list);}
   const hapusNote = index => {noteList.splice(index, 1)};
   const kosongkanNoteList = () => {noteList.length = 0;}
-  const getAllToObj = () => {return {nama, noteList};};
+  const getAllToObj = () => {
+    let temp = [];
+    noteList.forEach(val => {
+      temp.push(val.getAllToObj());
+    });
+    return {nama, "noteList" : temp, };
+  };
   const toString = () => `${nama}`;
   return {getNama, setNama, setNoteList, getNoteList, tambahNote, 
           kosongkanNoteList,  getAllToObj, toString, getNote, 
@@ -71,7 +77,11 @@ const listUtils = (() =>{
    * @returns groupFact() objek
    */
   const groupParseJSON = obj => {
-    return groupFact(obj.nama, obj.noteList);
+    let temp = [];
+    obj.noteList.forEach(e => {
+      temp.push(listParseJSON(e));
+    });
+    return groupFact(obj.nama, temp);
   }
 
   /**
@@ -82,7 +92,7 @@ const listUtils = (() =>{
   const getObject = array => {
     let temp = [];
     array.forEach(value => {
-      temp.push(value.getAllToObj());
+      temp.push(value.getAllToObj()); 
     });
     return temp;
   }
